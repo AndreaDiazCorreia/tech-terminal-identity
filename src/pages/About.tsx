@@ -20,27 +20,18 @@ const About = () => {
 }`;
 
   const skillsData = [
-    { category: "Languages", skills: [
-      { name: "Rust", level: 90 },
-      { name: "TypeScript", level: 85 },
-      { name: "Go", level: 80 },
-      { name: "C++", level: 75 },
-      { name: "Python", level: 70 }
-    ]},
-    { category: "Technologies", skills: [
-      { name: "Bitcoin Core", level: 85 },
-      { name: "Lightning Network", level: 90 },
-      { name: "Nostr", level: 95 },
-      { name: "WebRTC", level: 75 },
-      { name: "Docker", level: 80 }
-    ]},
-    { category: "Tools", skills: [
-      { name: "Git", level: 95 },
-      { name: "Linux/Unix", level: 90 },
-      { name: "Cryptography", level: 85 },
-      { name: "WebAssembly", level: 70 },
-      { name: "CI/CD", level: 80 }
-    ]}
+    { 
+      category: "Languages", 
+      skills: ["Rust", "TypeScript", "Go", "C++", "Python"]
+    },
+    { 
+      category: "Technologies", 
+      skills: ["Bitcoin Core", "Lightning Network", "Nostr", "WebRTC", "Docker"]
+    },
+    { 
+      category: "Tools", 
+      skills: ["Git", "Linux/Unix", "Cryptography", "WebAssembly", "CI/CD"]
+    }
   ];
 
   const commandOutput = `
@@ -98,33 +89,18 @@ the infrastructure for that future.
           <span className="text-terminal-green mr-2">$</span> Skills &amp; Expertise
         </h2>
         
-        <div className="space-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {skillsData.map((category) => (
-            <div key={category.category}>
+            <div key={category.category} className="tech-card p-6 rounded-lg border border-tech-nostrPurple/20 bg-tech-darkCharcoal/50">
               <h3 className="text-lg font-mono mb-4 text-tech-nostrPurple">{category.category}</h3>
-              <div className="space-y-4">
+              <ul className="space-y-2">
                 {category.skills.map((skill) => (
-                  <div key={skill.name}>
-                    <div className="flex justify-between mb-1">
-                      <span className="font-mono text-sm">{skill.name}</span>
-                      <span className="text-terminal-comment text-xs">{skill.level}%</span>
-                    </div>
-                    <div className="w-full bg-tech-darkCharcoal rounded-full h-2.5">
-                      <div 
-                        className="rounded-full h-2.5 transition-all duration-1000 ease-out"
-                        style={{
-                          width: `${skill.level}%`,
-                          backgroundColor: 
-                            skill.name.toLowerCase().includes("bitcoin") ? "#F7931A" :
-                            skill.name.toLowerCase().includes("lightning") ? "#120A8F" :
-                            skill.name.toLowerCase().includes("nostr") ? "#9747FF" :
-                            "#9747FF"
-                        }}
-                      ></div>
-                    </div>
-                  </div>
+                  <li key={skill} className="font-mono text-sm flex items-center">
+                    <span className="text-terminal-green mr-2">❯</span>
+                    {skill}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           ))}
         </div>
