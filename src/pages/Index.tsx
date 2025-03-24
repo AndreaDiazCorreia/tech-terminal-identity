@@ -17,7 +17,7 @@ const Index = () => {
     "cd ~/dev-portfolio",
     "ls -la",
     "cat welcome.md",
-    "Hello! I'm a passionate open source developer focused on Bitcoin, Nostr, and Lightning Network technologies.",
+    "Hello! I'm a passionate open source developer focused on Bitcoin, Nostr, Lightning Network and sometimes AI.",
     "Building decentralized solutions for a more open and censorship-resistant internet.",
     "npm start"
   ];
@@ -29,13 +29,13 @@ const Index = () => {
       <section className="text-center max-w-4xl mx-auto">
         <div className="space-y-4">
           <div className="inline-block px-3 py-1 rounded-full bg-tech-nostrPurple/10 text-tech-nostrPurple text-xs font-mono mb-4">
-            Developer / Open Source Contributor
+            Andrea Diaz Correia / Open Source Software Developer
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-mono font-bold leading-tight">
-            Building the <span className="text-tech-nostrPurple">Decentralized</span> Web
+            Making Internet <span className="text-tech-nostrPurple">Cypherpunk</span> again
           </h1>
           <p className="text-terminal-comment text-lg max-w-2xl mx-auto">
-            Focused on Bitcoin, Nostr, and Lightning Network technologies
+            Focused on Bitcoin, Nostr, Lightning Network and AI technologies for fun
           </p>
         </div>
 
@@ -58,7 +58,7 @@ const Index = () => {
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
           <a
-            href="https://github.com/"
+            href="https://github.com/AndreaDiazCorreia"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 rounded-md border border-tech-nostrPurple/30 text-terminal-foreground font-mono flex items-center hover:bg-tech-nostrPurple/10 transition-colors after:hidden"
@@ -69,7 +69,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
         <div className="tech-card">
           <div className="h-12 w-12 rounded-md bg-tech-bitcoinOrange/10 flex items-center justify-center mb-4">
             <svg className="h-6 w-6 text-tech-bitcoinOrange" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,27 +83,40 @@ const Index = () => {
         </div>
 
         <div className="tech-card">
-          <div className="h-12 w-12 rounded-md bg-tech-nostrPurple/10 flex items-center justify-center mb-4">
-            <svg className="h-6 w-6 text-tech-nostrPurple" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7 10v4h4v-4H7zm6 0v4h4v-4h-4z" fill="currentColor"/>
-              <path fillRule="evenodd" clipRule="evenodd" d="M2 5.5C2 3.567 3.567 2 5.5 2h13C20.433 2 22 3.567 22 5.5v13c0 1.933-1.567 3.5-3.5 3.5h-13C3.567 22 2 20.433 2 18.5v-13zM5.5 4C4.672 4 4 4.672 4 5.5v13c0 .828.672 1.5 1.5 1.5h13c.828 0 1.5-.672 1.5-1.5v-13c0-.828-.672-1.5-1.5-1.5h-13z" fill="currentColor"/>
-            </svg>
-          </div>
-          <h3 className="text-lg font-mono font-medium mb-2">Nostr Protocol</h3>
-          <p className="text-terminal-comment text-sm">
-            Building on the Notes and Other Stuff Transmitted by Relays protocol to create censorship-resistant social applications.
-          </p>
-        </div>
+  <div className="h-12 w-12 rounded-md bg-tech-nostrPurple/10 flex items-center justify-center mb-4">
+    <img 
+      src="/assets/image 2.svg" 
+      alt="Nostr Protocol" 
+      className="h-12 w-12 text-tech-nostrPurple"
+    />
+  </div>
+  <h3 className="text-lg font-mono font-medium mb-2">Nostr Protocol</h3>
+  <p className="text-terminal-comment text-sm">
+    Building on the Notes and Other Stuff Transmitted by Relays protocol to create censorship-resistant social applications.
+  </p>
+</div>
 
         <div className="tech-card">
-          <div className="h-12 w-12 rounded-md bg-tech-lightningBlue/10 flex items-center justify-center mb-4">
-            <svg className="h-6 w-6 text-tech-lightningBlue" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div className="h-12 w-12 rounded-md bg-yellow-500/10 flex items-center justify-center mb-4">
+            <svg className="h-6 w-6 text-yellow-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M13 9h8L11 24v-9H4l9-15v9z" fill="currentColor"/>
             </svg>
           </div>
           <h3 className="text-lg font-mono font-medium mb-2">Lightning Network</h3>
           <p className="text-terminal-comment text-sm">
             Developing Layer 2 solutions that enable instant, low-cost Bitcoin transactions and new types of applications.
+          </p>
+        </div>
+
+        <div className="tech-card">
+          <div className="h-12 w-12 rounded-md bg-emerald-500/10 flex items-center justify-center mb-4">
+            <svg className="h-6 w-6 text-emerald-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 3h7v7H3V3zm11 0h7v7h-7V3zm0 11h7v7h-7v-7zM3 14h7v7H3v-7z" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 className="text-lg font-mono font-medium mb-2">Software Development</h3>
+          <p className="text-terminal-comment text-sm">
+            Building robust backend systems and leveraging AI technologies to create privacy-focused, efficient applications and tools.
           </p>
         </div>
       </section>
