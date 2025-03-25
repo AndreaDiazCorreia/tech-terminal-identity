@@ -1,4 +1,4 @@
-import { useGitHubStats } from '@/hooks/useGitHubStats';
+import { useGitHubStats } from '@/hooks/use-github-stats';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { Github, AlertCircle } from 'lucide-react';
 
