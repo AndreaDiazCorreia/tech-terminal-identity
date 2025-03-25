@@ -31,7 +31,7 @@ const Contact = () => {
     {
       command: "signal",
       description: "Show url to chat with me on Signal",
-      action: () => setVisibleInfo(prev => [...prev, "pgpKey"]),
+      action: () => setVisibleInfo(prev => [...prev, "signal"]),
     },
     {
       command: "github",
@@ -115,7 +115,7 @@ const Contact = () => {
                   <div className="font-mono text-xs sm:text-sm break-all">{contactInfo.signal}</div>
                 </div>
                 <button
-                  onClick={() => handleCopy("pgpKey", contactInfo.signal)}
+                  onClick={() => handleCopy("signal", contactInfo.signal)}
                   className="p-2 text-terminal-comment hover:text-terminal-foreground transition-colors"
                   aria-label="Copy signal url"
                 >
