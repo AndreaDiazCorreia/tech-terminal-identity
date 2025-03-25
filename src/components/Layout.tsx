@@ -27,15 +27,15 @@ const Layout = () => {
             </div>
             <div className="mt-4 md:mt-0">
               <div className="flex space-x-4">
-                <a href="https://github.com/" target="_blank" rel="noopener noreferrer" 
+                <a href="https://github.com/andreadiazcorreia" target="_blank" rel="noopener noreferrer" 
                    className="text-terminal-foreground hover:text-tech-nostrPurple transition-colors">
                   GitHub
                 </a>
-                <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer"
+                <a href="https://x.com/andreadcorreia" target="_blank" rel="noopener noreferrer"
                    className="text-terminal-foreground hover:text-tech-nostrPurple transition-colors">
-                  Twitter
+                  X/Twitter
                 </a>
-                <a href="https://nostr.com/" target="_blank" rel="noopener noreferrer"
+                <a href="https://njump.me/nprofile1qqspxzv55lx4d0ndm3zt6e0ake8xxty2qakj7rphwn4q26w5d3h7h7cs0txfd" target="_blank" rel="noopener noreferrer"
                    className="text-terminal-foreground hover:text-tech-nostrPurple transition-colors">
                   Nostr
                 </a>

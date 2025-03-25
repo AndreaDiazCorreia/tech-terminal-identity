@@ -129,7 +129,7 @@ const Index = () => {
           <div className="tech-card">
             <h2 className="text-2xl font-mono font-medium mb-4">Latest Articles</h2>
             <p className="text-terminal-comment mb-6">
-              Technical deep-dives on Bitcoin, Lightning Network, and Nostr development.
+              Technical deep-dives on Bitcoin, Lightning Network,Nostr, and Software development.
             </p>
             <div className="flex items-center justify-center text-tech-nostrPurple">
               <span>View the Blog</span>

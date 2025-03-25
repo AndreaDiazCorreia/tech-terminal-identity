@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Command, PanelLeft } from "lucide-react";
+import { Menu, X, PanelLeft } from "lucide-react";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,6 +45,7 @@ const NavBar = () => {
     >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
+          {/* Logo on the left */}
           <div className="flex items-center">
             <Link
               to="/"
@@ -53,35 +53,28 @@ const NavBar = () => {
             >
               <PanelLeft className="h-6 w-6 text-tech-nostrPurple" />
               <span className="text-tech-nostrPurple">&gt;</span>
-              <span>dev</span>
+              <span>⚡andrea@lawallet.ar</span>
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className={`font-mono text-sm hover:text-tech-nostrPurple transition-colors ${
-                  location.pathname === link.path
-                    ? "text-tech-nostrPurple"
-                    : "text-terminal-foreground"
-                }`}
-              >
-                ~/{link.name.toLowerCase()}
-              </Link>
-            ))}
+          {/* Navigation links moved to the right */}
+          <div className="hidden md:flex items-center">
+            <div className="flex space-x-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={`font-mono text-sm hover:text-tech-nostrPurple transition-colors ${
+                    location.pathname === link.path
+                      ? "text-tech-nostrPurple"
+                      : "text-terminal-foreground"
+                  }`}
+                >
+                  ~/{link.name.toLowerCase()}
+                </Link>
+              ))}
+            </div>
           </div>
-
-          {/* Command + K Keyboard Shortcut Button */}
-          <button
-            className="hidden md:flex items-center text-xs border border-tech-nostrPurple/30 rounded px-3 py-1.5 text-terminal-comment font-mono hover:border-tech-nostrPurple/60 transition-all"
-            onClick={() => console.log("Command palette opened")}
-          >
-            <Command className="h-3.5 w-3.5 mr-1.5" />
-            <span>Command + K</span>
-          </button>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">

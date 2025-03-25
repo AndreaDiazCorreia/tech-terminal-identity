@@ -8,11 +8,12 @@ const Contact = () => {
   const [visibleInfo, setVisibleInfo] = useState<string[]>([]);
 
   const contactInfo = {
-    email: "developer@example.com",
-    pgpKey: "3A2D 5BC4 F785 9F1E A662 3456 7C54 8D51 F9E2 1A3B",
-    github: "https://github.com/username",
-    twitter: "https://twitter.com/username",
-    nostr: "npub1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    email: "andrea.diaz.correia@gmail.com",
+    signal: "https://signal.me/#eu/ETp8twiwB4up_LNof2aYidA1I1r1VkgLvuT0zMhlKkcoh5O0p4BBjI1UN09s5dvq",
+    github: "https://github.com/andreadiazcorreia",
+    twitter: "https://x.com/andreadcorreia",
+    nostr: "npub1zvyeff7d26lxmhzyh4jlmdjwvvkg5pmd9uxrwa82q45agmr0a0as6rvfj0",
+    linkedin: "https://www.linkedin.com/in/andrea-diaz-correia/",
   };
 
   const handleCopy = (key: string, value: string) => {
@@ -28,8 +29,8 @@ const Contact = () => {
       action: () => setVisibleInfo(prev => [...prev, "email"]),
     },
     {
-      command: "pgp",
-      description: "Show PGP public key",
+      command: "signal",
+      description: "Show url to chat with me on Signal",
       action: () => setVisibleInfo(prev => [...prev, "pgpKey"]),
     },
     {
@@ -39,7 +40,7 @@ const Contact = () => {
     },
     {
       command: "twitter",
-      description: "Show Twitter profile",
+      description: "Show Twitter/X profile",
       action: () => setVisibleInfo(prev => [...prev, "twitter"]),
     },
     {
@@ -48,9 +49,14 @@ const Contact = () => {
       action: () => setVisibleInfo(prev => [...prev, "nostr"]),
     },
     {
+      command: "linkedin",
+      description: "Show linkedin profile",
+      action: () => setVisibleInfo(prev => [...prev, "linkedin"]),
+    },
+    {
       command: "all",
       description: "Show all contact information",
-      action: () => setVisibleInfo(["email", "pgpKey", "github", "twitter", "nostr"]),
+      action: () => setVisibleInfo(["email", "signal", "github", "twitter", "nostr", "linkedin"]),
     },
   ];
 
@@ -75,7 +81,7 @@ const Contact = () => {
             initialOutput={[
               "Welcome to the contact terminal.",
               "Type a command to reveal contact information.",
-              "Try 'email', 'pgp', 'github', 'twitter', 'nostr', or 'all'.",
+              "Try 'email', 'signal', 'github', 'twitter', 'nostr', 'linkedin' or 'all'.",
               "Type 'help' to see all available commands.",
               ""
             ]}
@@ -102,18 +108,18 @@ const Contact = () => {
               </div>
             )}
 
-            {visibleInfo.includes("pgpKey") && (
+            {visibleInfo.includes("signal") && (
               <div className="tech-card flex justify-between items-center">
                 <div>
-                  <div className="text-xs text-terminal-comment mb-1">PGP Key</div>
-                  <div className="font-mono text-xs sm:text-sm break-all">{contactInfo.pgpKey}</div>
+                  <div className="text-xs text-terminal-comment mb-1">Signal</div>
+                  <div className="font-mono text-xs sm:text-sm break-all">{contactInfo.signal}</div>
                 </div>
                 <button
-                  onClick={() => handleCopy("pgpKey", contactInfo.pgpKey)}
+                  onClick={() => handleCopy("pgpKey", contactInfo.signal)}
                   className="p-2 text-terminal-comment hover:text-terminal-foreground transition-colors"
-                  aria-label="Copy PGP key"
+                  aria-label="Copy signal url"
                 >
-                  {copied === "pgpKey" ? (
+                  {copied === "signal" ? (
                     <Check className="h-4 w-4 text-terminal-green" />
                   ) : (
                     <Copy className="h-4 w-4" />
@@ -177,6 +183,26 @@ const Contact = () => {
                 </button>
               </div>
             )}
+
+            {visibleInfo.includes("linkedin") && (
+              <div className="tech-card flex justify-between items-center">
+                <div>
+                  <div className="text-xs text-terminal-comment mb-1">Linkedin</div>
+                  <div className="font-mono text-xs sm:text-sm break-all">{contactInfo.linkedin}</div>
+                </div>
+                <button
+                  onClick={() => handleCopy("linkedin", contactInfo.linkedin)}
+                  className="p-2 text-terminal-comment hover:text-terminal-foreground transition-colors"
+                  aria-label="Copy linkedin url"
+                >
+                  {copied === "linkedin" ? (
+                    <Check className="h-4 w-4 text-terminal-green" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -185,7 +211,7 @@ const Contact = () => {
             <h3 className="text-lg font-mono font-medium mb-4">Connect</h3>
             <div className="space-y-4">
               <a
-                href="https://github.com/"
+                href="https://github.com/andreadiazcorreia"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-terminal-foreground hover:text-tech-nostrPurple transition-colors"
@@ -194,7 +220,7 @@ const Contact = () => {
                 <span>GitHub</span>
               </a>
               <a
-                href="https://twitter.com/"
+                href="https://twitter.com/andreadcorreia"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-terminal-foreground hover:text-tech-nostrPurple transition-colors"
@@ -203,14 +229,18 @@ const Contact = () => {
                 <span>Twitter</span>
               </a>
               <a
-                href="https://nostr.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-terminal-foreground hover:text-tech-nostrPurple transition-colors"
-              >
-                <Key className="h-5 w-5 mr-3" />
-                <span>Nostr</span>
-              </a>
+        href="https://njump.me/nprofile1qqspxzv55lx4d0ndm3zt6e0ake8xxty2qakj7rphwn4q26w5d3h7h7cs0txfd"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center text-terminal-foreground hover:text-tech-nostrPurple transition-colors"
+      >
+        <img 
+          src="/assets/image 5.svg" 
+          alt="Nostr" 
+          className="h-6 w-6 mr-3" 
+        />
+        <span>Nostr</span>
+      </a>
             </div>
           </div>
 
@@ -235,7 +265,7 @@ const Contact = () => {
           <div className="tech-card">
             <h3 className="text-lg font-mono font-medium mb-4">Location</h3>
             <div className="text-terminal-comment">
-              Currently remote, based in UTC-5
+              Currently remote, based in UTC-3
             </div>
           </div>
         </div>

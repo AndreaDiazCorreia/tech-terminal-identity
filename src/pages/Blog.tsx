@@ -92,7 +92,7 @@ const Blog = () => {
           Technical Articles
         </h1>
         <p className="text-terminal-comment mt-2 max-w-2xl">
-          Deep dives into Bitcoin, Lightning Network, and Nostr protocol development.
+          Deep-dives on Bitcoin, Lightning Network,Nostr, and Software development.
         </p>
       </div>
 
