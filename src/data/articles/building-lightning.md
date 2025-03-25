@@ -3,7 +3,7 @@ title: "Building Lightning Applications with LDK"
 date: "2023-10-15"
 description: "A deep dive into building applications on top of the Lightning Network using the Lightning Development Kit (LDK)."
 tags: ["Lightning", "Bitcoin", "Tutorial"]
-slug: "building-lightning-applications-ldk"
+slug: "building-lightning"
 readingTime: "10 min"
 ---
 
