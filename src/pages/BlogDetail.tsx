@@ -1,179 +1,199 @@
-
 import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Calendar, Clock, Tag, Share2 } from "lucide-react";
-import { getPostBySlug } from "../data/blogPosts";
-import CodeBlock from "../components/CodeBlock";
+import { useLocation } from "react-router-dom";
+import { Search, Tag, Clock } from "lucide-react";
+import BlogPost from "../components/BlogPost";
+import { getAllArticles } from "../utils/markdownLoader";
+import { ArticleMeta } from "../utils/markdownLoader";
 
-const BlogDetail = () => {
-  const { slug } = useParams();
-  const navigate = useNavigate();
-  const [post, setPost] = useState(getPostBySlug(slug || ""));
-  const [readingProgress, setReadingProgress] = useState(0);
-  
+const Blog = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [blogPosts, setBlogPosts] = useState<ArticleMeta[]>([]);
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+
   useEffect(() => {
-    if (!post) {
-      navigate("/blog", { replace: true });
-      return;
+    // Load all blog posts
+    try {
+      const posts = getAllArticles();
+      setBlogPosts(posts);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error loading blog posts:", error);
+      setLoading(false);
     }
+  }, []);
+
+  // Check URL for tag parameter
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const tagParam = searchParams.get('tag');
+    if (tagParam) {
+      setSelectedTag(tagParam);
+    }
+  }, [location.search]);
+
+  const allTags = Array.from(
+    new Set(blogPosts.flatMap((post) => post.tags))
+  ).sort();
+
+  const filteredPosts = blogPosts.filter((post) => {
+    const matchesSearch = searchTerm === "" || 
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
     
-    const handleScroll = () => {
-      const totalHeight = document.body.scrollHeight - window.innerHeight;
-      const progress = (window.scrollY / totalHeight) * 100;
-      setReadingProgress(progress);
-    };
+    const matchesTag = selectedTag === null || 
+      post.tags.some(tag => tag === selectedTag);
     
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [post, navigate]);
-  
-  if (!post) return null;
-  
-  // Simple markdown-like rendering (in a real app, use a proper markdown parser)
-  const renderContent = (content: string | undefined) => {
-    if (!content) return <p>No content available</p>;
-    
-    const lines = content.split('\n');
-    const elements: JSX.Element[] = [];
-    let codeBlock = '';
-    let inCodeBlock = false;
-    let codeLanguage = '';
-    
-    lines.forEach((line, index) => {
-      // Code block handling
-      if (line.startsWith('```')) {
-        if (inCodeBlock) {
-          elements.push(
-            <CodeBlock 
-              key={`code-${index}`} 
-              code={codeBlock} 
-              language={codeLanguage} 
-            />
-          );
-          codeBlock = '';
-          inCodeBlock = false;
-        } else {
-          inCodeBlock = true;
-          codeLanguage = line.slice(3).trim();
-        }
-        return;
-      }
-      
-      if (inCodeBlock) {
-        codeBlock += line + '\n';
-        return;
-      }
-      
-      // Heading handling
-      if (line.startsWith('# ')) {
-        elements.push(<h1 key={index} className="text-3xl font-mono font-bold mt-6 mb-4">{line.slice(2)}</h1>);
-      } else if (line.startsWith('## ')) {
-        elements.push(<h2 key={index} className="text-2xl font-mono font-bold mt-6 mb-3">{line.slice(3)}</h2>);
-      } else if (line.startsWith('### ')) {
-        elements.push(<h3 key={index} className="text-xl font-mono font-bold mt-5 mb-2">{line.slice(4)}</h3>);
-      } else if (line.trim() === '') {
-        elements.push(<div key={index} className="my-4"></div>);
-      } else {
-        elements.push(<p key={index} className="my-3 text-terminal-foreground leading-relaxed">{line}</p>);
-      }
-    });
-    
-    return elements;
-  };
-  
+    return matchesSearch && matchesTag;
+  });
+
+  const featuredPosts = filteredPosts.slice(0, 3);
+  const regularPosts = filteredPosts.slice(3);
+
+  if (loading) {
+    return (
+      <div className="max-w-6xl mx-auto animate-fade-in">
+        <div className="mb-12">
+          <div className="inline-block px-3 py-1 rounded-full bg-tech-nostrPurple/10 text-tech-nostrPurple text-xs font-mono mb-4">
+            Blog
+          </div>
+          <h1 className="text-3xl md:text-4xl font-mono font-bold">
+            Technical Articles
+          </h1>
+          <p className="text-terminal-comment mt-2 max-w-2xl">
+            Loading articles...
+          </p>
+        </div>
+        
+        {/* Loading skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="tech-card animate-pulse">
+              <div className="h-6 w-3/4 bg-tech-nostrPurple/20 rounded mb-4"></div>
+              <div className="h-4 w-full bg-terminal-comment/20 rounded mb-2"></div>
+              <div className="h-4 w-2/3 bg-terminal-comment/20 rounded mb-8"></div>
+              <div className="h-6 w-1/2 bg-tech-nostrPurple/10 rounded"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-4xl mx-auto animate-fade-in">
-      {/* Reading Progress Bar */}
-      <div 
-        className="fixed top-0 left-0 h-1 bg-tech-nostrPurple z-50 transition-all duration-300 ease-out"
-        style={{ width: `${readingProgress}%` }}
-      ></div>
-      
-      <Link to="/blog" className="inline-flex items-center text-sm text-terminal-comment hover:text-terminal-foreground transition-colors mb-8 after:hidden">
-        <ArrowLeft className="h-4 w-4 mr-1" />
-        Back to Articles
-      </Link>
-      
-      <article className="prose prose-invert">
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-mono font-bold mb-4">{post.title}</h1>
-          
-          <div className="flex flex-wrap items-center gap-4 text-sm text-terminal-comment">
-            <div className="flex items-center">
-              <Calendar className="h-4 w-4 mr-1" />
-              <span>{post.date}</span>
-            </div>
-            <div className="flex items-center">
-              <Clock className="h-4 w-4 mr-1" />
-              <span>{post.readingTime}</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              {post.tags.map((tag) => (
-                <Link 
-                  key={tag} 
-                  to={`/blog?tag=${tag}`}
-                  className="text-xs px-2 py-1 rounded font-mono inline-flex items-center after:hidden"
-                  style={{
-                    backgroundColor: getTagColor(tag).bg,
-                    color: getTagColor(tag).text
-                  }}
-                >
-                  <Tag className="h-3 w-3 mr-1" />
-                  {tag}
-                </Link>
-              ))}
-            </div>
-          </div>
+    <div className="max-w-6xl mx-auto animate-fade-in">
+      <div className="mb-12">
+        <div className="inline-block px-3 py-1 rounded-full bg-tech-nostrPurple/10 text-tech-nostrPurple text-xs font-mono mb-4">
+          Blog
+        </div>
+        <h1 className="text-3xl md:text-4xl font-mono font-bold">
+          Technical Articles
+        </h1>
+        <p className="text-terminal-comment mt-2 max-w-2xl">
+          Deep dives into Bitcoin, Lightning Network, and Nostr protocol development.
+        </p>
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-6 mb-8">
+        <div className="flex-1 relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-terminal-comment" />
+          <input
+            type="text"
+            placeholder="Search articles..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 bg-tech-darkCharcoal border border-tech-nostrPurple/20 rounded-md focus:outline-none focus:border-tech-nostrPurple/40 transition-colors font-mono text-sm"
+          />
         </div>
         
-        <div className="border-b border-tech-nostrPurple/20 mb-8"></div>
-        
-        <div className="content">{renderContent(post.content)}</div>
-        
-        <div className="mt-12 pt-6 border-t border-tech-nostrPurple/20">
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-terminal-comment">
-              Tags:&nbsp;
-              {post.tags.map((tag, index) => (
-                <span key={tag}>
-                  <Link 
-                    to={`/blog?tag=${tag}`}
-                    className="text-tech-nostrPurple hover:text-tech-nostrPurple/80 transition-colors"
-                  >
-                    {tag}
-                  </Link>
-                  {index < post.tags.length - 1 ? ', ' : ''}
-                </span>
-              ))}
-            </div>
-            <button 
-              onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-                // In a real app, show a toast notification
-                console.log('URL copied to clipboard');
-              }}
-              className="text-sm text-terminal-comment hover:text-terminal-foreground flex items-center transition-colors"
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-terminal-comment text-sm flex items-center">
+            <Tag className="h-4 w-4 mr-1" />
+            Filter:
+          </span>
+          <button
+            onClick={() => setSelectedTag(null)}
+            className={`text-xs px-2 py-1 rounded font-mono ${
+              selectedTag === null
+                ? "bg-tech-nostrPurple/20 text-tech-nostrPurple"
+                : "bg-tech-darkCharcoal text-terminal-comment hover:bg-tech-darkCharcoal/80"
+            }`}
+          >
+            All
+          </button>
+          {allTags.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setSelectedTag(tag)}
+              className={`text-xs px-2 py-1 rounded font-mono ${
+                selectedTag === tag
+                  ? "bg-tech-nostrPurple/20 text-tech-nostrPurple"
+                  : "bg-tech-darkCharcoal text-terminal-comment hover:bg-tech-darkCharcoal/80"
+              }`}
             >
-              <Share2 className="h-4 w-4 mr-1" />
-              Share
+              {tag}
             </button>
-          </div>
+          ))}
         </div>
-      </article>
+      </div>
+
+      {filteredPosts.length === 0 ? (
+        <div className="tech-card text-center py-12">
+          <div className="text-xl font-mono mb-2">No articles found</div>
+          <p className="text-terminal-comment">
+            Try adjusting your search or filter criteria.
+          </p>
+        </div>
+      ) : (
+        <>
+          {featuredPosts.length > 0 && (
+            <>
+              <div className="flex items-center mb-4">
+                <div className="text-lg font-mono">Featured Articles</div>
+                <div className="ml-4 flex-1 border-b border-tech-nostrPurple/10"></div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                {featuredPosts.map((post) => (
+                  <BlogPost key={post.slug} post={post} featured={true} />
+                ))}
+              </div>
+            </>
+          )}
+
+          {regularPosts.length > 0 && (
+            <>
+              <div className="flex items-center mb-4">
+                <div className="text-lg font-mono">All Articles</div>
+                <div className="ml-4 flex-1 border-b border-tech-nostrPurple/10"></div>
+              </div>
+              
+              <div className="terminal-window">
+                <div className="terminal-header">
+                  <div className="terminal-button bg-red-500"></div>
+                  <div className="terminal-button bg-yellow-500"></div>
+                  <div className="terminal-button bg-green-500"></div>
+                  <span className="text-xs text-terminal-comment ml-2 font-mono">~/blog $ ls -la</span>
+                </div>
+                <div className="terminal-content">
+                  <div className="flex border-b border-tech-nostrPurple/10 pb-2 mb-2">
+                    <div className="font-mono text-xs text-terminal-comment w-28">Date</div>
+                    <div className="flex-1 font-mono text-xs text-terminal-comment">Title</div>
+                    <div className="font-mono text-xs text-terminal-comment">Tags</div>
+                  </div>
+                  {regularPosts.map((post) => (
+                    <BlogPost key={post.slug} post={post} />
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 };
 
-// Helper function to get tag colors
-const getTagColor = (tag: string) => {
-  const tagColors: Record<string, { bg: string; text: string }> = {
-    bitcoin: { bg: 'rgba(247, 147, 26, 0.2)', text: '#F7931A' },
-    lightning: { bg: 'rgba(18, 10, 143, 0.2)', text: '#120A8F' },
-    nostr: { bg: 'rgba(151, 71, 255, 0.2)', text: '#9747FF' },
-    default: { bg: 'rgba(151, 71, 255, 0.1)', text: '#9747FF' }
-  };
-  
-  return tagColors[tag.toLowerCase()] || tagColors.default;
-};
-
-export default BlogDetail;
+export default Blog;

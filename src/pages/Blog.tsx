@@ -1,12 +1,37 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Search, Tag, Clock } from "lucide-react";
 import BlogPost from "../components/BlogPost";
-import { blogPosts } from "../data/blogPosts";
+import { getAllArticles } from "../utils/markdownLoader";
+import { ArticleMeta } from "../utils/markdownLoader";
 
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [blogPosts, setBlogPosts] = useState<ArticleMeta[]>([]);
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+
+  useEffect(() => {
+    // Load all blog posts
+    try {
+      const posts = getAllArticles();
+      setBlogPosts(posts);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error loading blog posts:", error);
+      setLoading(false);
+    }
+  }, []);
+
+  // Check URL for tag parameter
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const tagParam = searchParams.get('tag');
+    if (tagParam) {
+      setSelectedTag(tagParam);
+    }
+  }, [location.search]);
 
   const allTags = Array.from(
     new Set(blogPosts.flatMap((post) => post.tags))
@@ -26,6 +51,36 @@ const Blog = () => {
 
   const featuredPosts = filteredPosts.slice(0, 3);
   const regularPosts = filteredPosts.slice(3);
+
+  if (loading) {
+    return (
+      <div className="max-w-6xl mx-auto animate-fade-in">
+        <div className="mb-12">
+          <div className="inline-block px-3 py-1 rounded-full bg-tech-nostrPurple/10 text-tech-nostrPurple text-xs font-mono mb-4">
+            Blog
+          </div>
+          <h1 className="text-3xl md:text-4xl font-mono font-bold">
+            Technical Articles
+          </h1>
+          <p className="text-terminal-comment mt-2 max-w-2xl">
+            Loading articles...
+          </p>
+        </div>
+        
+        {/* Loading skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="tech-card animate-pulse">
+              <div className="h-6 w-3/4 bg-tech-nostrPurple/20 rounded mb-4"></div>
+              <div className="h-4 w-full bg-terminal-comment/20 rounded mb-2"></div>
+              <div className="h-4 w-2/3 bg-terminal-comment/20 rounded mb-8"></div>
+              <div className="h-6 w-1/2 bg-tech-nostrPurple/10 rounded"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto animate-fade-in">

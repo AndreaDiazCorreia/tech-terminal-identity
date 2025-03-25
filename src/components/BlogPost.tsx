@@ -1,19 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { Calendar, Clock, Tag } from "lucide-react";
 import { Link } from "react-router-dom";
-
-interface PostMeta {
-  title: string;
-  date: string;
-  description: string;
-  tags: string[];
-  slug: string;
-  readingTime: string;
-}
+import { ArticleMeta } from "../utils/markdownLoader";
 
 interface BlogPostProps {
-  post: PostMeta;
+  post: ArticleMeta;
   featured?: boolean;
 }
 
