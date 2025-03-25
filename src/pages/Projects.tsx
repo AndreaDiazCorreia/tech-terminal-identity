@@ -1,4 +1,5 @@
 
+import GitHubStats from "@/components/GitHubStats";
 import ProjectCard from "../components/ProjectCard";
 
 const Projects = () => {
@@ -153,53 +154,9 @@ func openChannel(nodePubkey string, amount uint64) (*lnrpc.ChannelPoint, error) 
         />
       </div>
 
-      <div className="mt-16 text-center">
-  <h2 className="text-2xl font-mono font-medium mb-6">Github Stats</h2>
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-    <div className="tech-card">
-      <div className="text-4xl font-mono font-bold text-tech-nostrPurple mb-2">490</div>
-      <div className="text-terminal-comment text-sm">Contributions</div>
-    </div>
-    <div className="tech-card">
-      <div className="text-4xl font-mono font-bold text-tech-nostrPurple mb-2">39</div>
-      <div className="text-terminal-comment text-sm">Pull Requests</div>
-    </div>
-    <div className="tech-card">
-      <div className="text-4xl font-mono font-bold text-tech-nostrPurple mb-2">203</div>
-      <div className="text-terminal-comment text-sm">Commits (2023)</div>
-    </div>
-    <div className="tech-card">
-      <div className="text-4xl font-mono font-bold text-tech-nostrPurple mb-2">11</div>
-      <div className="text-terminal-comment text-sm">Stars Earned</div>
-    </div>
-  </div>
-  
-  <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-    <div className="tech-card">
-      <h3 className="text-lg font-mono font-medium mb-3">Most Used Languages</h3>
-      <div className="flex flex-wrap gap-2 justify-center">
-        <span className="text-xs px-2 py-1 rounded font-mono bg-blue-500/20 text-blue-400">TypeScript 67.39%</span>
-        <span className="text-xs px-2 py-1 rounded font-mono bg-green-500/20 text-green-400">Makefile 24.65%</span>
-        <span className="text-xs px-2 py-1 rounded font-mono bg-orange-500/20 text-orange-400">Rust 5.14%</span>
-        <span className="text-xs px-2 py-1 rounded font-mono bg-purple-500/20 text-purple-400">Solidity 1.17%</span>
-      </div>
-    </div>
-    <div className="tech-card">
-      <h3 className="text-lg font-mono font-medium mb-3">Activity Streaks</h3>
-      <div className="flex justify-around">
-        <div>
-          <div className="text-3xl font-mono font-bold text-tech-nostrPurple">2</div>
-          <div className="text-terminal-comment text-xs">Current Streak</div>
-        </div>
-        <div>
-          <div className="text-3xl font-mono font-bold text-tech-nostrPurple">13</div>
-          <div className="text-terminal-comment text-xs">Longest Streak</div>
-        </div>
-      </div>
-    </div>
-  </div>
+      <GitHubStats username="AndreaDiazCorreia" />
 </div>
-    </div>
+
   );
 };
 
