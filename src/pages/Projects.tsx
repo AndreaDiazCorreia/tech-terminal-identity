@@ -1,6 +1,6 @@
-
 import GitHubStats from "@/components/GitHubStats";
 import ProjectCard from "../components/ProjectCard";
+import HackathonProjects from "../components/HackathonProjects";
 
 const Projects = () => {
   // Sample tech stacks with colors
@@ -154,9 +154,11 @@ func openChannel(nodePubkey string, amount uint64) (*lnrpc.ChannelPoint, error) 
         />
       </div>
 
-      <GitHubStats username="AndreaDiazCorreia" />
-</div>
+      {/* Hackathon Projects Section */}
+      <HackathonProjects />
 
+      <GitHubStats username="AndreaDiazCorreia" />
+    </div>
   );
 };
 
