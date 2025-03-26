@@ -112,19 +112,17 @@ const Contact = () => {
               <div className="tech-card flex justify-between items-center">
                 <div>
                   <div className="text-xs text-terminal-comment mb-1">Signal</div>
-                  <div className="font-mono text-xs sm:text-sm break-all">{contactInfo.signal}</div>
+                  <div className="font-mono">{contactInfo.signal}</div>
                 </div>
-                <button
-                  onClick={() => handleCopy("signal", contactInfo.signal)}
-                  className="p-2 text-terminal-comment hover:text-terminal-foreground transition-colors"
-                  aria-label="Copy signal url"
+                <a
+                  href={contactInfo.signal}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-terminal-comment hover:text-terminal-foreground transition-colors after:hidden"
+                  aria-label="Visit linkedin profile"
                 >
-                  {copied === "signal" ? (
-                    <Check className="h-4 w-4 text-terminal-green" />
-                  ) : (
-                    <Copy className="h-4 w-4" />
-                  )}
-                </button>
+                  <ExternalLink className="h-4 w-4" />
+                </a>
               </div>
             )}
 
