@@ -187,20 +187,18 @@ const Contact = () => {
             {visibleInfo.includes("linkedin") && (
               <div className="tech-card flex justify-between items-center">
                 <div>
-                  <div className="text-xs text-terminal-comment mb-1">Linkedin</div>
-                  <div className="font-mono text-xs sm:text-sm break-all">{contactInfo.linkedin}</div>
+                  <div className="text-xs text-terminal-comment mb-1">LinkedIn</div>
+                  <div className="font-mono">{contactInfo.linkedin}</div>
                 </div>
-                <button
-                  onClick={() => handleCopy("linkedin", contactInfo.linkedin)}
-                  className="p-2 text-terminal-comment hover:text-terminal-foreground transition-colors"
-                  aria-label="Copy linkedin url"
+                <a
+                  href={contactInfo.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-terminal-comment hover:text-terminal-foreground transition-colors after:hidden"
+                  aria-label="Visit linkedin profile"
                 >
-                  {copied === "linkedin" ? (
-                    <Check className="h-4 w-4 text-terminal-green" />
-                  ) : (
-                    <Copy className="h-4 w-4" />
-                  )}
-                </button>
+                  <ExternalLink className="h-4 w-4" />
+                </a>
               </div>
             )}
           </div>
